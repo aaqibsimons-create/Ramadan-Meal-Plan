@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IOL Ramadan 2027 Meal Planner (300×600 prototype)</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--sf:#fff;--ink:#111;--mu:#5f5f5f;--ln:#e3e3e3;--au:#d8121b;--sel:#f4f4f4;--ac:#d8121b;--acx:#fff;--pg:#ececec;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e0e0e;--sf:#161616;--ink:#f2f2f2;--mu:#aaa;--ln:#333;--sel:#1d1d1d;--ac:#ff4a52;--au:#ff4a52;--acx:#111;--pg:#000;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e0e0e;--sf:#161616;--ink:#f2f2f2;--mu:#aaa;--ln:#333;--sel:#1d1d1d;--ac:#ff4a52;--au:#ff4a52;--acx:#111;--pg:#000;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 'Barlow',system-ui,sans-serif;background:var(--pg);color:var(--ink);display:grid;place-items:center;min-height:100vh;padding:16px}
+h1,h2,h3{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;line-height:1.1;margin:0 0 .4em}
+h1{font-size:2rem}h2{font-size:1.4rem;padding-left:8px;border-left:4px solid var(--au);margin-top:6px}h3{font-size:1.05rem}
+.ad{width:300px;height:600px;display:flex;flex-direction:column;position:relative;overflow:hidden;background:var(--bg);border:1px solid var(--ln)}
+.hd{background:#fff;color:#111;display:flex;gap:10px;align-items:center;padding:8px 12px;border-bottom:2px solid #111;flex:none}
+.logo{height:34px;width:auto;display:block}.hd b{font:700 1.05rem/1.1 'Barlow Condensed',sans-serif;display:block}.hd span{font-size:.7rem;color:#5f5f5f;display:block}.hd i{font-style:normal;font-weight:600;color:#111;border-bottom:1px solid #111}
+main{flex:1;overflow-y:auto;overflow-x:hidden;padding:12px}
+.tabs{display:flex;flex:none;border-top:1px solid var(--ln);background:var(--bg)}
+.tabs button{flex:1;min-height:46px;border:0;border-top:3px solid transparent;background:none;color:var(--mu);font:600 13px 'Barlow',sans-serif;cursor:pointer}.tabs button[aria-current=true]{color:var(--ink);border-top-color:var(--au)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:1px}
+.b{min-height:44px;padding:0 14px;border-radius:2px;border:1.5px solid var(--ac);background:var(--ac);color:var(--acx);font:600 14px 'Barlow',sans-serif;cursor:pointer}
+.b.o{background:transparent;color:var(--ink);border-color:var(--ink)}.b.w{width:100%}
+.l{color:var(--mu);margin:0 0 6px}.note{font-size:.78rem;color:var(--mu);margin:4px 0}
+fieldset{border:0;padding:0;margin:0 0 12px}legend{font-weight:600;margin-bottom:5px;padding:0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px}.opt{position:relative;display:block}.opt input{position:absolute;opacity:0;inset:0}
+.opt span{display:flex;align-items:center;height:100%;padding:6px 8px;min-height:44px;border:1px solid var(--ln);border-radius:2px;background:var(--sf);cursor:pointer;font-size:.85rem;line-height:1.2}
+.opt input:checked+span{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);font-weight:600}.opt input:checked+span::before{content:"✓ ";color:var(--au);margin-right:3px}.opt input:focus-visible+span{outline:3px solid var(--ink);outline-offset:1px}
+.day{border-top:1px solid var(--ln);padding:10px 0;display:grid;grid-template-columns:44px 1fr;gap:4px 10px}
+.ph{width:44px;height:44px;background:var(--sel);display:grid;place-items:center;font-size:1.5rem}.dn{font-weight:600;color:var(--au);font-size:.8rem}.day h3{margin:0}
+.meta{color:var(--mu);font-size:.8rem}.chip{background:var(--sel);padding:0 6px;margin-right:5px}
+.act{grid-column:1/-1;display:flex;gap:6px}.act .b{flex:1;min-height:40px}
+.spon{background:var(--sel);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);padding:8px 10px;margin:8px 0;font-size:.8rem;color:var(--mu)}.spon b{color:var(--ink)}
+.cat h3{border-bottom:2px solid var(--ink);margin-top:12px}.it{display:flex;gap:10px;align-items:center;min-height:44px;border-bottom:1px solid var(--ln)}
+.it input{width:22px;height:22px;accent-color:var(--au);flex:none}.it label{flex:1;display:flex;justify-content:space-between;gap:8px;cursor:pointer}.it input:checked+label{text-decoration:line-through;color:var(--mu)}.q{font-weight:600;white-space:nowrap}
+progress{width:100%;height:8px;accent-color:var(--au)}.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+.empty{border:1px dashed var(--ln);padding:18px;text-align:center;color:var(--mu);margin-bottom:10px}
+ul{padding-left:18px;margin:4px 0}.lnk{display:block;border-top:1px solid var(--ln);padding:10px 0;font-weight:600;text-decoration:none;color:var(--ink);min-height:44px}.lnk:hover{color:var(--au)}
+details{border-top:1px solid var(--ln);padding:8px 0;margin-top:8px}code{font-size:.75rem}
+#ov{position:absolute;inset:0;background:var(--bg);overflow-y:auto;padding:12px;z-index:5}#ov[hidden]{display:none}#ov h2{margin-top:10px}
+#toast{position:absolute;left:12px;right:12px;bottom:56px;background:#111;color:#fff;padding:10px 12px;border-radius:2px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9;font-size:.85rem}#toast.on{opacity:1}
+.cap{font-size:.75rem;color:var(--mu);margin:8px 0 0;text-align:center;max-width:300px}
+@media print{body{display:block;padding:0}.hd,.tabs,.cap,.noprint{display:none!important}.ad{width:auto;height:auto;border:0;overflow:visible}main{overflow:visible}}
+</style>
+</head>
+<body>
+<div>
+<div class="ad" id="ad">
+<header class="hd"><img class="logo" alt="IOL" src="data:image/png;base64,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"><div><b>Ramadan 2027 Meal Planner</b><span>Presented by <i>[Retail Partner]</i></span></div></header>
+<main id="v" tabindex="-1"></main>
+<nav class="tabs" aria-label="Planner sections"></nav>
+<div id="ov" role="dialog" aria-modal="true" aria-label="Details" hidden></div>
+<div id="toast" role="status" aria-live="polite"></div>
+</div>
+<p class="cap">Prototype · 300×600 display unit. Recipes and quantities are illustrative. Sponsor is a placeholder.</p>
+</div>
+<script>
+// ---------- Data (kept separate from presentation) ----------
+// Ingredients: key -> [name, category, unit]. kg = weight; otherwise a count label.
+const I={chk:['Chicken portions','M','kg'],min:['Beef mince','M','kg'],fish:['Fish fillets','M','kg'],lent:['Dry lentils','M','kg'],chp:['Chickpeas (tins)','M','tins'],egg:['Eggs','M','eggs'],
+pot:['Potatoes','V','kg'],car:['Carrots','V','kg'],oni:['Onions','V','kg'],tom:['Tomatoes','V','kg'],let:['Lettuce','V','heads'],cuc:['Cucumber','V',''],spin:['Spinach','V','kg'],lem:['Lemons','V',''],gar:['Garlic','V','bulbs'],but:['Butternut','V','kg'],mveg:['Mixed vegetables','V','kg'],
+rice:['Rice','G','kg'],roti:['Roti','G',''],wrap:['Wraps','G',''],roll:['Burger or bread rolls','G',''],pasta:['Spaghetti','G','kg'],
+yog:['Plain yoghurt','D','kg'],oil:['Cooking oil','P'],spice:['Curry powder and mixed spices','P'],salt:['Salt and pepper','P'],stock:['Stock cubes','P']};
+const CATS={M:'Meat and protein',V:'Fruit and vegetables',G:'Grains and bread',D:'Dairy and chilled',P:'Pantry staples'};
+// Recipes: quantities are for 4 servings. tg: T traditional, Q quick, L lighter.
+const R={
+roast:{n:'Roast chicken and vegetables',c:'Family favourite',t:55,e:'🍗',tg:'T',i:'chk:1.1,pot:.8,car:.4,oni:.4,rice:.3,oil:1,spice:1,salt:1',s:'Season the chicken with salt, spices and oil, then roast with chopped potatoes, carrots and onions until golden and cooked through.|Cook the rice according to the packet.|Rest the chicken for 5 minutes and serve with the vegetables and rice.'},
+curry:{n:'Mild chicken curry and rice',c:'Comfort food',t:40,e:'🍛',tg:'T',i:'chk:.9,pot:.5,oni:.4,tom:.4,rice:.4,yog:.15,spice:1,oil:1,stock:1',s:'Fry the onions in oil, add curry spices, then the chicken and chopped tomatoes.|Add potato cubes, stock and water. Simmer until the chicken and potatoes are tender.|Stir in the yoghurt off the heat and serve with rice.'},
+dhal:{n:'Lentil dhal and roti',c:'Budget-friendly',t:35,e:'🍲',tg:'TL',i:'lent:.4,oni:.3,tom:.3,gar:1,roti:8,spin:.35,spice:1,oil:1',s:'Rinse the lentils and simmer in water until soft.|Fry the onions, garlic, spices and tomatoes, then stir into the lentils.|Wilt in the spinach and serve with warmed roti.'},
+wraps:{n:'Beef mince wraps',c:'Quick and easy',t:30,e:'🌯',tg:'Q',i:'min:.6,wrap:8,let:1,tom:.3,cuc:1,yog:.1,spice:1',s:'Brown the mince with spices until cooked through.|Slice the lettuce, tomatoes and cucumber.|Fill warmed wraps with mince, salad and a spoon of yoghurt.'},
+fish:{n:'Baked fish and spiced potatoes',c:'Lighter option',t:40,e:'🐟',tg:'L',i:'fish:.9,pot:.6,car:.3,lem:2,rice:.3,oil:1,spice:1,salt:1',s:'Toss potato wedges and carrots in oil and spices and bake until crisp.|Add the seasoned fish with lemon for the last 15 to 20 minutes.|Cook the rice and serve with lemon wedges.'},
+breyani:{n:'Chicken breyani',c:'Weekend favourite',t:65,e:'🍚',tg:'T',i:'chk:1.2,rice:.6,pot:.4,oni:.5,yog:.25,gar:1,spice:1,oil:1',s:'Marinate the chicken in yoghurt, garlic and spices.|Fry the onions, add the chicken and potatoes and cook until nearly tender.|Layer with par-cooked rice and steam on low heat until the rice is done.'},
+burgers:{n:'Homemade burgers and wedges',c:'Family night',t:40,e:'🍔',tg:'Q',i:'min:.6,roll:4,pot:.8,let:1,tom:.3,oni:.2,oil:1,salt:1',s:'Mix the mince with grated onion and salt and shape into patties.|Bake potato wedges in oil until crisp.|Grill or pan-fry the patties and build burgers with lettuce and tomato.'},
+stew:{n:'Spiced mince and potato stew',c:'Traditional comfort',t:50,e:'🥘',tg:'T',i:'min:.6,pot:.9,car:.4,oni:.4,tom:.3,stock:1,spice:1',s:'Brown the mince with onions and spices.|Add tomatoes, carrots, potatoes and stock.|Simmer until the potatoes are soft and the sauce has thickened.'},
+bolo:{n:'Spaghetti bolognese',c:'Quick and easy',t:35,e:'🍝',tg:'Q',i:'min:.5,pasta:.5,oni:.3,tom:.5,gar:1,oil:1,salt:1',s:'Fry the onion and garlic, then brown the mince.|Add chopped tomatoes and simmer for 20 minutes.|Boil the spaghetti and serve with the sauce.'},
+chickpea:{n:'Chickpea and potato curry',c:'Budget-friendly',t:35,e:'🥔',tg:'QL',i:'chp:2,pot:.5,oni:.3,tom:.4,spin:.2,rice:.3,spice:1,oil:1',s:'Fry the onions with spices, then add tomatoes and diced potatoes with a little water.|Add drained chickpeas and simmer until the potatoes are tender.|Stir through the spinach and serve with rice.'},
+friedrice:{n:'Egg and vegetable fried rice',c:'Quick and easy',t:25,e:'🍳',tg:'Q',i:'rice:.4,egg:4,mveg:.4,oni:.2,oil:1,salt:1',s:'Cook the rice and let it cool slightly.|Stir-fry the onion and vegetables, then scramble in the eggs.|Add the rice, season and toss until hot.'},
+chwraps:{n:'Chicken wraps',c:'Quick and easy',t:30,e:'🌯',tg:'Q',i:'chk:.6,wrap:8,let:1,cuc:1,yog:.1,spice:1',s:'Season and pan-fry sliced chicken until cooked through.|Slice the lettuce and cucumber.|Fill wraps with chicken, salad and yoghurt.'},
+salad:{n:'Grilled chicken and potato salad',c:'Lighter option',t:35,e:'🥗',tg:'L',i:'chk:.6,let:1,tom:.3,cuc:1,lem:1,pot:.4,oil:1,salt:1',s:'Boil the potatoes until tender, then halve them.|Grill the seasoned chicken and slice it.|Toss with lettuce, tomato, cucumber, lemon juice and oil.'},
+lsoup:{n:'Lentil and vegetable soup',c:'Lighter option',t:45,e:'🥣',tg:'L',i:'lent:.3,car:.3,oni:.3,pot:.3,tom:.2,roll:4,stock:1,spice:1',s:'Fry the onion and spices, then add chopped vegetables, lentils and stock.|Simmer for 30 minutes until the lentils are soft.|Serve with warm rolls.'},
+butternut:{n:'Butternut soup and bread rolls',c:'Budget-friendly',t:40,e:'🎃',tg:'L',i:'but:1,oni:.3,pot:.3,roll:4,stock:1,oil:1,salt:1',s:'Fry the onion, add cubed butternut and potato with stock.|Simmer until soft, then blend until smooth.|Season and serve with rolls.'}};
+const PL={mix:['roast','curry','dhal','wraps','fish','breyani','burgers'],trad:['roast','curry','dhal','stew','fish','breyani','burgers'],quick:['wraps','bolo','chickpea','burgers','friedrice','chwraps','dhal'],light:['salad','lsoup','fish','butternut','dhal','chickpea','chwraps']};
+const SU=['Oats with banana','Scrambled eggs on toast','Yoghurt with fruit','Overnight oats','Cheese and tomato toast','Fruit smoothie','Omelette with bread'];
+const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const G=[['hh','Household size',[['1','1 person'],['2','2 people'],['3','3 to 4 people'],['5','5 to 6 people'],['7','7 or more people']]],
+['bd','Budget preference',[['low','Budget-conscious'],['bal','Balanced and affordable'],['flex','Flexible']]],
+['mp','Meal preference',[['trad','Traditional favourites'],['quick','Quick and easy meals'],['light','Fresh and lighter meals'],['mix','A mixture of everything']]],
+['pr','Planning priority',[['suhoor','Suhoor'],['iftar','Iftar'],['both','Both Suhoor and Iftar']]]];
+// ---------- State ----------
+const S={hh:'3',bd:'bal',mp:'mix',pr:'iftar',plan:[],ck:new Set(),view:'compact'};
+const $=s=>document.querySelector(s);
+const track=n=>console.debug('[IOL planner event]',n);
+const SV=()=>({1:1,2:2,3:4,5:6,7:8})[S.hh];
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)}
+function fmt(k,q){const[,c,u]=I[k];if(c==='P')return'Check pantry';if(u==='kg'){q=Math.ceil(q*20-1e-9)/20;return q<1?Math.round(q*1000)+' g':(+q.toFixed(2))+' kg'}q=Math.ceil(q-1e-9);return q+(u?' '+u:'')}
+const ings=id=>R[id].i.split(',').map(x=>{const[k,q]=x.split(':');return[k,+q*SV()/4]});
+function totals(){const m={};S.plan.forEach(id=>ings(id).forEach(([k,q])=>m[k]=(m[k]||0)+q));return m}
+
+// ---------- Views ----------
+S.tab='setup';
+const v=$('#v'),ov=$('#ov');
+const TABS=[['setup','Setup'],['plan','Plan'],['list','List'],['tips','Tips']];
+$('.tabs').innerHTML=TABS.map(([k,l])=>`<button data-a="tab" data-t="${k}">${l}</button>`).join('');
+const empty=t=>`<h2>${t==='plan'?'Your Iftar week':'Shopping list'}</h2><div class="empty">${t==='plan'?'No plan yet.':'Your list appears here once you generate a plan.'}</div><button class="b w" data-a="tab" data-t="setup">Go to preferences</button>`;
+const spon=t=>`<div class="spon"><b>Sponsored · [Retail Partner]</b><br>${t}</div>`;
+function setup(){return `<h1>The Ramadan Meal Planner</h1><p class="l">Take the stress out of Iftar. Plan a week’s worth of meals, organise your shopping list and make more of Ramadan.</p><p class="note">Free to use. No account required.</p><form id="f" style="margin-top:12px">${G.map(([k,l,o])=>`<fieldset><legend>${l}</legend><div class="opts">${o.map(([x,t])=>`<label class="opt"><input type="radio" name="${k}" value="${x}" ${S[k]===x?'checked':''}><span>${t}</span></label>`).join('')}</div></fieldset>`).join('')}</form><button class="b w" data-a="gen">Generate my meal plan</button><p id="stat" class="note" role="status" aria-live="polite"></p>`}
+function build(){let p=[...PL[S.mp]];if(S.bd==='low'){if(!p.includes('chickpea'))p[1]='chickpea';if(!p.includes('butternut'))p[4]='butternut'}return p}
+function plan(){if(!S.plan.length)return empty('plan');
+const su=S.pr!=='iftar'?spon('<b>Suhoor ideas:</b> '+SU.join(', ')+'. Illustrative only; not in the shopping list.'):'';
+return `<h2>Your Iftar week</h2><p class="note">Serves ${SV()}.${S.bd==='low'?' Includes extra meat-free meals.':''} Illustrative recipes.</p>${su}`+S.plan.map((id,i)=>{const r=R[id];return `<article class="day"><div class="ph" role="img" aria-label="Image placeholder">${r.e}</div><div><div class="dn">${DAYS[i]}</div><h3>${r.n}</h3><div class="meta"><span class="chip">${r.c}</span>${r.t} min</div></div><div class="act"><button class="b o" data-a="rec" data-i="${i}">View recipe</button><button class="b o" data-a="swap" data-i="${i}">Swap meal</button></div></article>`+(i===3?spon('Recipe idea placeholder. No prices or stock shown.'):'')}).join('')}
+function list(){if(!S.plan.length)return empty('list');const t=totals(),keys=Object.keys(t);
+return `<h2>Shopping list</h2><p class="note">Summed from your seven recipes for ${SV()} servings and rounded up. Illustrative: check your pantry.</p><progress id="pg" max="1" value="0" aria-label="Shopping progress"></progress><p id="pgt" class="meta"></p><div class="g2"><button class="b" data-a="cp">Copy remaining</button><button class="b o" data-a="pr">Print list</button><button class="b o" data-a="rs">Reset</button><button class="b o" data-a="shop">Shop these ingredients</button></div><div id="lst">${Object.keys(CATS).map(c=>{const ks=keys.filter(k=>I[k][1]===c);return ks.length?`<div class="cat"><h3>${CATS[c]}</h3>${ks.map(k=>`<div class="it"><input type="checkbox" id="c_${k}" data-k="${k}" ${S.ck.has(k)?'checked':''}><label for="c_${k}"><span>${I[k][0]}</span><span class="q">${fmt(k,t[k])}</span></label></div>`).join('')}</div>`:''}).join('')}</div>${spon('Shopping offer placeholder. Prefer another store? Copy or print your list.')}`}
+function tips(){return `<h2>Budget guide</h2><ul><li>Reuse ingredients across meals.</li><li>Include affordable meat-free meals.</li><li>Use the swap button for substitutions.</li><li>Check your pantry before shopping.</li><li>Plan only what you will cook to cut waste.</li></ul><p class="note"><b>Estimated basket cost:</b> Retailer pricing integration available in a future phase.</p><h2>More from IOL</h2><p class="note">Placeholder links. Editorial to supply destinations.</p>${['Suhoor made simple','Budget-friendly Ramadan meals','Make-ahead recipes','Iftar for the family','Eid preparation'].map(x=>`<a class="lnk" href="#" data-ph>${x}</a>`).join('')}<details><summary><b>Notes for IOL developers</b></summary><p class="note">Production events (no personal data; follow IOL consent rules). This prototype only logs to the console.</p><ul><li><code>planner_started</code>: clicked Generate flow start</li><li><code>preferences_submitted</code>: form submitted</li><li><code>meal_plan_generated</code>: plan shown</li><li><code>recipe_opened</code>: recipe viewed</li><li><code>meal_swapped</code>: meal replaced</li><li><code>shopping_list_created</code>: list built</li><li><code>shopping_list_copied</code>, <code>shopping_list_printed</code></li><li><code>retailer_cta_clicked</code>: sponsor CTA</li></ul><p class="note">To go live: validated recipes, real photography, sponsor creative and URL, pricing feed, analytics, disclosure copy. Not implemented: live pricing, stock, accounts, saved plans, Suhoor shopping list.</p></details>`}
+function render(keep){const st=v.scrollTop;v.innerHTML={setup,plan,list,tips}[S.tab]();document.querySelectorAll('.tabs button').forEach(b=>b.toggleAttribute('aria-current',b.dataset.t===S.tab)||0);document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-current',b.dataset.t===S.tab));v.scrollTop=keep?st:0;if(S.tab==='list')prog()}
+function prog(){const t=totals(),n=S.plan.length?Object.keys(t).length:0,d=[...S.ck].filter(k=>t[k]!==undefined).length,p=$('#pg');if(!p)return;p.value=n?d/n:0;$('#pgt').textContent=`${d} of ${n} items ticked`}
+function remaining(){const t=totals();return Object.keys(CATS).map(c=>{const l=Object.keys(t).filter(k=>I[k][1]===c&&!S.ck.has(k));return l.length?CATS[c]+'\n'+l.map(k=>`- ${I[k][0]}: ${fmt(k,t[k])}`).join('\n'):''}).filter(Boolean).join('\n\n')}
+// ---------- Overlay ----------
+const back='<button class="b s o" data-a="close">← Back</button>';
+function open(h){ov.innerHTML=back+h;ov.hidden=false;ov.scrollTop=0;ov.querySelector('button').focus()}
+function close(){ov.hidden=true}
+function recipe(i){const id=S.plan[i],r=R[id];track('recipe_opened');open(`<h2>${r.n}</h2><p class="meta"><span class="chip">${r.c}</span>${r.t} min · Serves ${SV()}</p><p class="note">Illustrative recipe. Quantities not professionally validated.</p><h3>Ingredients</h3><ul>${ings(id).map(([k,q])=>`<li>${I[k][0]}: ${fmt(k,q)}</li>`).join('')}</ul><h3>Method</h3><ol style="padding-left:18px">${r.s.split('|').map(s=>`<li>${s}</li>`).join('')}</ol><div class="g2"><button class="b" data-a="close">Back to weekly menu</button><button class="b o" data-a="swap" data-i="${i}">Swap meal</button></div>`)}
+function swap(i){const tg={trad:'T',quick:'Q',light:'L'}[S.mp];let c=Object.keys(R).filter(k=>!S.plan.includes(k)&&(!tg||R[k].tg.includes(tg)));if(c.length<2)c=c.concat(Object.keys(R).filter(k=>!S.plan.includes(k)&&!c.includes(k)));c=c.slice(0,3);
+open(`<h2>Swap ${DAYS[i]}’s meal</h2><p class="meta">Replacing ${R[S.plan[i]].n}. Pick one:</p>${c.map(k=>`<button class="b o w" style="text-align:left;margin:6px 0;height:auto;padding:8px 12px" data-a="pick" data-i="${i}" data-id="${k}">${R[k].e} <b>${R[k].n}</b><br><span class="meta">${R[k].c} · ${R[k].t} min</span></button>`).join('')}`)}
+// ---------- Actions ----------
+document.addEventListener('click',e=>{
+const ph=e.target.closest('[data-ph]');if(ph){e.preventDefault();toast('Placeholder link. Real destination to be supplied.');return}
+const el=e.target.closest('[data-a]');if(!el)return;const a=el.dataset.a,i=+el.dataset.i;
+if(a==='tab'){S.tab=el.dataset.t;if(S.tab==='setup')track('planner_started');render()}
+else if(a==='gen'){track('preferences_submitted');$('#stat').textContent='Building your plan…';setTimeout(()=>{S.plan=build();S.ck=new Set();S.tab='plan';render();track('meal_plan_generated');track('shopping_list_created');toast('Meal plan generated. Your shopping list is ready.')},500)}
+else if(a==='rec')recipe(i);else if(a==='swap')swap(i);
+else if(a==='pick'){S.plan[i]=el.dataset.id;track('meal_swapped');close();render(true);toast(`${DAYS[i]} is now ${R[el.dataset.id].n}. List updated.`)}
+else if(a==='close')close();
+else if(a==='cp'){const t=remaining();if(!t){toast('Nothing left to copy. Everything is ticked.');return}track('shopping_list_copied');const done=()=>toast('Remaining list copied');if(navigator.clipboard)navigator.clipboard.writeText(t).then(done,()=>fb(t,done));else fb(t,done)}
+else if(a==='pr'){track('shopping_list_printed');try{window.print()}catch(x){toast('Printing unavailable here. Use Copy instead.')}}
+else if(a==='rs'){S.ck=new Set();render(true);toast('Checklist reset')}
+else if(a==='shop'){track('retailer_cta_clicked');open(`<h2>Shop these ingredients</h2><p><b>Demonstration screen.</b> In production this sends your list to [Retail Partner]’s online store via a destination agreed with the sponsor.</p><p class="note">No retailer, prices, stock or URLs are connected. Your list works anywhere you shop.</p>`)}});
+function fb(t,done){const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy');done()}catch(e){toast('Copy failed. Select the list manually.')}x.remove()}
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.k){t.checked?S.ck.add(t.dataset.k):S.ck.delete(t.dataset.k);prog()}else if(t.type==='radio'){S[t.name]=t.value;if(S.plan.length)toast('Quantities updated. Generate again to change the menu.')}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ov.hidden)close()});
+render();
+</script>
+</body>
+</html>
